@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 func play(first, second *Player, firstN, secondN int) (int, int) {
 	turn := true
 	for {
@@ -39,4 +41,19 @@ func CompoundStrategyHelper(min, max, firstN, games int) (int, int) {
 	}
 
 	return firstWins, secondWins
+}
+
+func resolveType(a, b string) string {
+	_, err := strconv.Atoi(a)
+	_, err2 := strconv.Atoi(b)
+
+	if err == nil && err2 == nil {
+		return strategyFixed
+	}
+
+	if err == nil || err2 == nil {
+		return strategyMixed
+	}
+
+	return strategyCompound
 }
