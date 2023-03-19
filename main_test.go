@@ -71,3 +71,27 @@ func TestMixedStrategyGamePlay(t *testing.T) {
 		t.Errorf("total wins: got %v and %v", firstTotal, secondTotal)
 	}
 }
+
+func TestCompundStrategyGamePlay(t *testing.T) {
+	firstMin, firstMax := 1, 100
+	secondMin, secondMax, games := 1, 100, 10
+	firstTotal, secondTotal := main.CompoundStrategy(firstMin, firstMax, secondMin, secondMax, games)
+
+	if len(firstTotal) != len(secondTotal) {
+		t.Errorf("total results lengths: got %v and %v, want equal lengths", len(firstTotal), len(secondTotal))
+	}
+
+	// total wins should not be equal
+	if reflect.DeepEqual(firstTotal, secondTotal) {
+		t.Errorf("total wins: got %v and %v", firstTotal, secondTotal)
+	}
+
+	want := (secondMax - secondMin) * games
+	for i := range firstTotal {
+		got := firstTotal[i] + secondTotal[i]
+		if want != got {
+			t.Errorf("played games: got %v want %v", got, want)
+			return
+		}
+	}
+}
