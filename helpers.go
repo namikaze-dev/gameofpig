@@ -1,6 +1,9 @@
 package main
 
-import "strconv"
+import (
+	"strconv"
+	"strings"
+)
 
 func play(first, second *Player, firstN, secondN int) (int, int) {
 	turn := true
@@ -56,4 +59,23 @@ func resolveType(a, b string) string {
 	}
 
 	return strategyCompound
+}
+
+func parseRange(s string) (int, int) {
+	buf := strings.Split(s, "-")
+	if len(buf) != 2 {
+		logger.Fatalln("invalid range argument:", s)
+	}
+
+	min, err := strconv.Atoi(buf[0])
+	if err != nil {
+		logger.Fatalln("invalid not integer argument:", s)
+	}
+
+	max, err := strconv.Atoi(buf[1])
+	if err != nil {
+		logger.Fatalln("invalid not integer argument:", s)
+	}
+
+	return min, max
 }
