@@ -31,7 +31,7 @@ func main() {
 
 	switch gameType {
 	case strategyFixed:
-		fmt.Println("fixed")
+		playStrategyFixed(a, b)
 	case strategyMixed:
 		fmt.Println("mixed")
 	default:
@@ -39,4 +39,22 @@ func main() {
 	}
 }
 
+func playStrategyFixed(a, b string) {
+	holdA, err := strconv.Atoi(a)
+	if err != nil {
+		logger.Fatalln("invalid not integer argument:", a)
+	}
 
+	holdB, err := strconv.Atoi(b)
+	if err != nil {
+		logger.Fatalln("invalid not integer argument:", b)
+	}
+
+	winsA, winsB := FixedStrategy(holdA, holdB, games)
+	percentA := int(float32(winsA) / float32(games) * 100)
+	percentB := int(float32(winsB) / float32(games) * 100)
+
+	fmt.Printf("Holding at %v vs Holding at %v: wins: %v/%v (%v.0%%), losses: %v/%v (%v%%)\n",
+		a, b, winsA, games, percentA, winsB, games, percentB,
+	)
+}
